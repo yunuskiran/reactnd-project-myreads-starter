@@ -7,7 +7,7 @@ function Book(props) {
     <li>
       <div className="book">
         <div className="book-top">
-          {(
+          {
             <div
               className="book-cover"
               style={{
@@ -20,7 +20,7 @@ function Book(props) {
                 })`,
               }}
             />
-          )}
+          }
           <div className="book-shelf-changer">
             <select
               value={item.shelf}
@@ -37,12 +37,13 @@ function Book(props) {
           </div>
         </div>
         <div className="book-title">{item.title}</div>
-        {item.author &&
-          item.authors.map((author, index) => (
-            <div key={index} className="book-authors">
-              {author}
-            </div>
-          ))}
+        {item.authors ? (
+          <div className="book-authors">{item.authors.join("\r\n")}</div>
+        ) : (
+          <div className="book-authors">
+            <p>Author Not Found</p>
+          </div>
+        )}
       </div>
     </li>
   );

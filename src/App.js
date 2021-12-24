@@ -59,26 +59,26 @@ class BooksApp extends Component {
     }
 
     BooksAPI.search(query).then((result) => {
-      this.matchSearchAndMyBooks(result);
-      this.setState({
-        loading: false,
-      });
+      if (!result.error) {
+        this.matchSearchAndMyBooks(result);
+        this.setState({
+          loading: false,
+        });
+      } else {
+        this.setState({
+          loading: false,
+          searchItems: [],
+        });
+      }
     });
   };
 
   matchSearchAndMyBooks = (searchResult) => {
     if (!searchResult) return;
     if (searchResult && searchResult.error) return;
-    let myShelfBooks = [
-      ...this.state.books.currentlyReading,
-      ...this.state.books.wantToRead,
-      ...this.state.books.read,
-    ];
-
-    myShelfBooks.forEach((book) => {
+    Object.keys(this.state.books).forEach((book) => {
       let found = searchResult.find((searchItem) => searchItem.id === book.id);
       if (found) {
-        debugger;
         found.shelf = book.shelf;
       }
     });
