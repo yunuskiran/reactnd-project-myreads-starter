@@ -3,8 +3,8 @@ I created this website as a project for React Nanodegree for Udacity. This websi
 
 ### Prerequisites
 
-[Git]
-[Npm]
+[Git](https://git-scm.com/)
+[Npm](https://www.npmjs.com/)
 
 ### Installing
 1. Open terminal clone the project using `https://github.com/yunuskiran/reactnd-project-myreads-starter.git`
