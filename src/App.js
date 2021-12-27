@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import * as BooksAPI from "./BooksAPI";
 import "./App.css";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import BookList from "./Components/BookList";
 import SearchBook from "./Components/SearchBook";
+import { PageNotFound } from "./Components/PageNotFound";
 class BooksApp extends Component {
   state = {
     books: {},
@@ -88,7 +89,7 @@ class BooksApp extends Component {
 
   render() {
     return (
-      <>
+      <Switch>
         <Route
           exact
           path="/"
@@ -113,7 +114,8 @@ class BooksApp extends Component {
             />
           )}
         />
-      </>
+        <Route component={PageNotFound} />
+      </Switch>
     );
   }
 }

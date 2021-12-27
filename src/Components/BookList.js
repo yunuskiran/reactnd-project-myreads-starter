@@ -6,10 +6,11 @@ import CatalogLoader from "./Loader";
 function BookList(props) {
   const { books, loading, onUpdateShelf } = props;
   const shelves = [
-    { title: "Read", key: "read" },
-    { title: "Want To Read", key: "wantToRead" },
     { title: "Currently Reading", key: "currentlyReading" },
+    { title: "Want To Read", key: "wantToRead" },
+    { title: "Read", key: "read" },
   ];
+
   const renderResult = () => {
     if (loading) {
       return (
@@ -27,56 +28,23 @@ function BookList(props) {
     } else {
       return (
         <div className="list-books-content">
-          <div className="bookshelf">
-            <h2 className="bookshelf-title">Currently Reading</h2>
-            <div className="bookshelf-books">
-              <ol className="books-grid">
-                {books &&
-                  books.currentlyReading &&
-                  books.currentlyReading.map((book) => (
-                    <Book
-                      key={book.id}
-                      item={book}
-                      onUpdateShelf={onUpdateShelf}
-                    />
-                  ))}
-              </ol>
+          {shelves.map((item) => (
+            <div key={item.key} className="bookshelf">
+              <h2 className="bookshelf-title">{item.title}</h2>
+              <div className="bookshelf-books">
+                <ol className="books-grid">
+                  {books[item.key] &&
+                    books[item.key].map((book) => (
+                      <Book
+                        key={book.id}
+                        item={book}
+                        onUpdateShelf={onUpdateShelf}
+                      />
+                    ))}
+                </ol>
+              </div>
             </div>
-          </div>
-
-          <div className="bookshelf">
-            <h2 className="bookshelf-title">Want To Read</h2>
-            <div className="bookshelf-books">
-              <ol className="books-grid">
-                {books &&
-                  books.wantToRead &&
-                  books.wantToRead.map((book) => (
-                    <Book
-                      key={book.id}
-                      item={book}
-                      onUpdateShelf={onUpdateShelf}
-                    />
-                  ))}
-              </ol>
-            </div>
-          </div>
-
-          <div className="bookshelf">
-            <h2 className="bookshelf-title">Read</h2>
-            <div className="bookshelf-books">
-              <ol className="books-grid">
-                {books &&
-                  books.read &&
-                  books.read.map((book) => (
-                    <Book
-                      key={book.id}
-                      item={book}
-                      onUpdateShelf={onUpdateShelf}
-                    />
-                  ))}
-              </ol>
-            </div>
-          </div>
+          ))}
         </div>
       );
     }
