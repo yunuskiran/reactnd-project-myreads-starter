@@ -1,5 +1,6 @@
 import React from "react";
 import defaultThumbnail from "../static/src/img/nocover.jpg";
+import PropTypes from "prop-types";
 
 function Book(props) {
   const { item, onUpdateShelf } = props;
@@ -48,5 +49,12 @@ function Book(props) {
     </li>
   );
 }
+
+Book.propTypes = {
+  item: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+  }),
+  onUpdateShelf: PropTypes.func,
+};
 
 export default Book;

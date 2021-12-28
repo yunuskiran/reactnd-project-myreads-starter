@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import BookList from "./Components/BookList";
 import SearchBook from "./Components/SearchBook";
 import { PageNotFound } from "./Components/PageNotFound";
+import debounce from "lodash.debounce";
 class BooksApp extends Component {
   state = {
     books: {},
@@ -59,6 +60,10 @@ class BooksApp extends Component {
       return;
     }
 
+    this.debounceSearch(query);
+  };
+
+  debounceSearch = debounce((query) => {
     BooksAPI.search(query).then((result) => {
       if (!result.error) {
         this.matchSearchAndMyBooks(result);
@@ -72,18 +77,22 @@ class BooksApp extends Component {
         });
       }
     });
-  };
+  }, 500);
 
   matchSearchAndMyBooks = (searchResult) => {
     if (!searchResult) return;
     if (searchResult && searchResult.error) return;
-    Object.keys(this.state.books).forEach((book) => {
-      let found = searchResult.find((searchItem) => searchItem.id === book.id);
-      if (found) {
-        found.shelf = book.shelf;
-      }
+    Object.keys(this.state.books).forEach((key) => {
+      if (!this.state.books[key]) return;
+      this.state.books[key].forEach((book) => {
+        let found = searchResult.find(
+          (searchItem) => searchItem.id === book.id
+        );
+        if (found) {
+          found.shelf = book.shelf;
+        }
+      });
     });
-
     this.setState({ searchItems: searchResult });
   };
 
