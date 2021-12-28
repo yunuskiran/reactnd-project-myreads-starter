@@ -82,17 +82,25 @@ class BooksApp extends Component {
   matchSearchAndMyBooks = (searchResult) => {
     if (!searchResult) return;
     if (searchResult && searchResult.error) return;
+    let booksArray = [];
     Object.keys(this.state.books).forEach((key) => {
       if (!this.state.books[key]) return;
       this.state.books[key].forEach((book) => {
-        let found = searchResult.find(
-          (searchItem) => searchItem.id === book.id
-        );
-        if (found) {
-          found.shelf = book.shelf;
-        }
+        booksArray.push(book);
       });
     });
+
+    searchResult.map((searchItem) => {
+      searchItem.shelf = "none";
+      booksArray.map((book) => {
+        if (book.id === searchItem.id) {
+          searchItem.shelf = book.shelf;
+        }
+        return searchItem;
+      });
+      return searchItem;
+    });
+
     this.setState({ searchItems: searchResult });
   };
 
